@@ -326,7 +326,7 @@ var _ = Describe("(Integration) [Dry-Run test]", func() {
 
 			Expect(cmd).To(RunSuccessfully())
 
-			By("generating a nodegroup config using dry-run")
+			By("creating a new nodegroup from the output of dry-run")
 			cmd = params.EksctlCreateCmd.
 				WithArgs(
 					"nodegroup",
@@ -334,6 +334,7 @@ var _ = Describe("(Integration) [Dry-Run test]", func() {
 					"--name=private-ng",
 					"--node-private-networking",
 					"--node-volume-size=82",
+					"--instance-selector-vcpus=8",
 					"--dry-run",
 				).
 				WithoutArg("--region", params.Region)
@@ -372,9 +373,7 @@ var _ = Describe("(Integration) [Dry-Run test]", func() {
 				WithStdin(bytes.NewReader(output))
 			Expect(cmd).To(RunSuccessfully())
 		})
-
 	})
-
 })
 
 var _ = AfterSuite(func() {
